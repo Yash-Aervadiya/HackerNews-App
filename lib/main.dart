@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'src/artical.dart';
+import 'src/article.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
 
@@ -28,7 +29,30 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Article> _articles = articles;
+//  List<Article> _articles = []; //articles;
+
+  List<int> _ids = [
+    20876248,
+    20854214,
+    20890682,
+    20874006,
+    20888817,
+    20880789,
+    20875098,
+    20887708,
+    20880576,
+    20861948,
+    20876960
+  ]; //articles;
+
+  Future<Article> _getArticle(int id) async {
+    final storyurl = 'https://hacker-news.firebaseio.com/v0/item/$id.json';
+    final storyres = await http.get(storyurl);
+
+    if (storyres.statusCode == 200) {
+      return parseArticle(storyres.body);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,29 +60,29 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-//          Scaffold.of(context)
-//              .showSnackBar(SnackBar(content: Text("REFRESHED")));
-          await new Future.delayed(const Duration(seconds: 1));
+      body: ListView(
+        children: _ids
+            .map((i) => FutureBuilder<Article>(
+                  future: _getArticle(i),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<Article> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return Text(snapshot.data.title);
+                    } else {
+                      return Text("Not done..!!");
+                    }
 
-          setState(() {
-            _articles.removeAt(0);
-          });
-
-          return;
-        },
-        child: ListView(
-          children: _articles.map(_buildItem).toList(),
-        ),
+                    return null;
+                  },
+                ))
+            .toList(),
       ),
     );
   }
 
   Widget _buildItem(Article article) {
     return Padding(
-      key : Key(article.text),
-
+      key: Key(article.text),
       padding: const EdgeInsets.all(16.0),
       child: ExpansionTile(
         title: Text(
@@ -69,14 +93,14 @@ class _MyHomePageState extends State<MyHomePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Text("${article.commentsCount} comments"),
+//              Text("${article.commentsCount} comments"),
               IconButton(
                 icon: Icon(Icons.launch),
                 onPressed: () async {
-                  final fakeurl = "http://${article.domain}";
-                  if (await canLaunch(fakeurl)) {
-                    launch(fakeurl);
-                  }
+//                  final fakeurl = "http://${article.domain}";
+//                  if (await canLaunch(fakeurl)) {
+//                    launch(fakeurl);
+//                  }
                 },
               )
             ],
