@@ -120,26 +120,5 @@ final articles = [
       age: "3 hours",
       score: 73,
       commentsCount: 127),
-  new Article(
-      text:
-      "Human speech may have a universal transmission rate: 39 bits per second",
-      domain: "wiley.com",
-      by: "Zdw",
-      age: "3 hours",
-      score: 81,
-      commentsCount: 128),
-  new Article(
-      text: "Why Finnish babies sleep in cardboard boxes",
-      domain: "wiley.com",
-      by: "Zdw",
-      age: "3 hours",
-      score: 15,
-      commentsCount: 85),
-  new Article(
-      text: "Secushare: A decentralized, secure social network built on GNUnet",
-      domain: "wiley.com",
-      by: "Zdw",
-      age: "3 hours",
-      score: 61,
-      commentsCount: 168),
+
 ];
