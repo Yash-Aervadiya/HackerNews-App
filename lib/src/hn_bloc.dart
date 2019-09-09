@@ -59,6 +59,7 @@ class HackerNewsBloc {
 
     final partUrl = type == StoriesType.topStories ? 'top' : 'new';
     final url = '$_baseUrl${partUrl}stories.json';
+    print("url == $url");
     final response = await http.get(url);
 
     if (response.statusCode != 200) {
@@ -86,6 +87,7 @@ class HackerNewsBloc {
     final articles = await Future.wait(futureArticles);
 
     _articles = articles;
+    print("_articles + ${articles.length}");
   }
 
   Future<Article> _getArticle(int id) async {

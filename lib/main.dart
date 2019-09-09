@@ -63,9 +63,14 @@ class _MyHomePageState extends State<MyHomePage> {
       body: StreamBuilder<UnmodifiableListView<Article>>(
           stream: widget.bloc.articles,
           initialData: UnmodifiableListView<Article>([]),
-          builder: (context, snapshots) => ListView(
-                children: snapshots.data.map(_buildItem).toList(),
-              )),
+          builder: (context, snapshots){
+            print("Snapshot - ${snapshots.hasData}");
+            print("Snapshot - ${snapshots.data}");
+            print("Snapshot - ${snapshots.data.length}");
+                return ListView(
+                  children: snapshots.data.map(_buildItem).toList(),
+                );
+          }),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentindex,
         items: [
