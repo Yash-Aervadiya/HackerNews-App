@@ -11,6 +11,12 @@ enum StoriesType {
 }
 
 class HackerNewsBloc {
+
+
+  Stream<bool> get isLoading => _isloadingSubject.stream;
+
+  final _isloadingSubject = BehaviorSubject<bool>();
+
   final _articlesSubject = BehaviorSubject<UnmodifiableListView<Article>>();
 
   var _articles = <Article>[];
@@ -47,10 +53,13 @@ class HackerNewsBloc {
     });
   }
 
-  _getArticleAndUpdate(List<int> ids) {
-    _updateArticles(ids).then((_) {
+  _getArticleAndUpdate(List<int> ids) async {
+
+    _isloadingSubject.add(true);
+    await _updateArticles(ids);
       _articlesSubject.add(UnmodifiableListView(_articles));
-    });
+      _isloadingSubject.add(false);
+
   }
 
   Stream<UnmodifiableListView<Article>> get articles => _articlesSubject.stream;
