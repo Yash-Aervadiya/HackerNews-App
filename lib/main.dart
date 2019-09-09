@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
+        primarySwatch: Colors.deepOrange ,
       ),
       home: MyHomePage(
         title: 'Flutter Hacker News',
@@ -124,7 +124,8 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class LoadingInfo extends StatefulWidget {
-  Stream<bool> _isLoading;
+
+  final Stream<bool> _isLoading;
 
   LoadingInfo(this._isLoading);
 
